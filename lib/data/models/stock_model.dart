@@ -36,18 +36,21 @@ class StockModel {
 class Criteria {
   String? type;
   String? text;
+  Map<String, dynamic>? variable;
 
-  Criteria({this.type, this.text});
+  Criteria({this.type, this.text, this.variable});
 
   Criteria.fromJson(Map<String, dynamic> json) {
     type = json['type'];
     text = json['text'];
+    variable = json['variable'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['type'] = this.type;
     data['text'] = this.text;
+    data['variable'] = this.variable;
     return data;
   }
 }
