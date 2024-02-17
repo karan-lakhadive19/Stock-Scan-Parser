@@ -32,70 +32,77 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Expanded(
-            child: FutureBuilder(
-              future: getdata(),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(
-                    child: CircularProgressIndicator(),
-                  );
-                } else if (snapshot.hasError) {
-                  return Center(
-                    child: Text('Error: ${snapshot.error}'),
-                  );
-                } else {
-                  home_list = snapshot.data as List<StockModel>;
-                  return ListView.builder(
-                    itemBuilder: (context, index) {
-                      return Container(
-                        decoration: BoxDecoration(color: Color(0xff01131B),),
-                        child: Column(
-                          children: [
-                            GestureDetector(
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => Description(
-                                      name: home_list[index].name.toString(),
-                                      tag: home_list[index].tag.toString(),
-                                      criteria: home_list[index].criteria,
-                                      myColor: index<=2? Colors.green: Colors.red,
+      body: Container(
+        margin: EdgeInsets.only(top: 50, left: 10, right: 10),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Expanded(
+              child: FutureBuilder(
+                future: getdata(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  } else if (snapshot.hasError) {
+                    return Center(
+                      child: Text('Error: ${snapshot.error}'),
+                    );
+                  } else {
+                    home_list = snapshot.data as List<StockModel>;
+                    return ListView.builder(
+                      itemBuilder: (context, index) {
+                        return Container(
+                          decoration: BoxDecoration(color: Color(0xff01131B),),
+                          child: Column(
+                            children: [
+                              GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => Description(
+                                        name: home_list[index].name.toString(),
+                                        tag: home_list[index].tag.toString(),
+                                        criteria: home_list[index].criteria,
+                                        myColor: index<=2? Colors.green: Colors.red,
+                                      ),
                                     ),
+                                  );
+                                },
+                                child: ListTile(
+                                  title: Text(
+                                    home_list[index].name.toString(),
+                                    style: TextStyle(color: Colors.white, decoration: TextDecoration.underline),
                                   ),
-                                );
-                              },
-                              child: ListTile(
-                                title: Text(
-                                  home_list[index].name.toString(),
-                                  style: TextStyle(color: Colors.white, decoration: TextDecoration.underline),
-                                ),
-                                subtitle: Text(
-                                  home_list[index].tag.toString(),
-                                  style: index <= 2 ? TextStyle(color: Colors.green) : TextStyle(color: Colors.red),
+                                  subtitle: Text(
+                                    home_list[index].tag.toString(),
+                                    style: index <= 2 ? TextStyle(color: Colors.green, decoration: TextDecoration.underline, decorationColor: Colors.white) : TextStyle(color: Colors.red, decoration: TextDecoration.underline, decorationColor: Colors.white),
+                                  ),
                                 ),
                               ),
-                            ),
-                            Divider(
-                              height: 1,
-                              color: Colors.white,
-                            ),
-                          ],
-                        ),
-                      );
-                    },
-                    itemCount: home_list.length,
-                  );
-                }
-              },
+                              Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 15),
+                                child: Divider(
+                                  
+                                  height: 1,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ],
+                          ),
+                        );
+                      },
+                      itemCount: home_list.length,
+                    );
+                  }
+                },
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
